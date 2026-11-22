@@ -9,8 +9,9 @@ dist/
 .pytest_cache/
 .ruff_cache/
 
-# Data (MNIST is downloaded to ~/.cache/scratchnet/mnist, never committed)
-data/
+# Data (MNIST is downloaded to ~/.cache/scratchnet/mnist, never committed).
+# Only the top-level data/ folder is ignored; web/data/ holds the exported models.
+/data/
 *.gz
 *.part
 
