@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inside a neural network</title>
+  <meta name="description" content="Three interactive experiments that show what a neural network does and how it learns, built from scratch in Python.">
+  <meta name="author" content="Noah Lindner">
+  <meta name="theme-color" content="#f8fafb">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f8fafb'/%3E%3Cpath d='M7 24 16 8 25 24' fill='none' stroke='%231f3fb5' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='8' r='3' fill='%23d3263a'/%3E%3C/svg%3E">
+  <link rel="preload" href="fonts/bricolage-grotesque-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/atkinson-hyperlegible-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <a class="skip" href="#neuron">Skip to the first experiment</a>
+
+  <header class="hero">
+    <div class="hero-text">
+      <h1>Inside a neural network</h1>
+      <p class="lede">Three small experiments that show what a neural network actually does, and how it learns. Every network on this page was written from scratch and trained in Python.</p>
+      <p class="byline">By Noah Lindner, master&rsquo;s student in Robotics, Cognition, Intelligence at TU&nbsp;Munich</p>
+      <a class="start" href="#neuron">Start with a single neuron</a>
+    </div>
+    <figure id="hero-figure" class="hero-figure">
+      <canvas class="plot" role="img" aria-label="A neural network learning to separate two interleaved spirals of blue dots and red crosses"></canvas>
+      <figcaption>
+        Sixteen neurons learning to tell two spirals apart.
+        <button type="button" class="link-button">Replay</button>
+      </figcaption>
+    </figure>
+  </header>
+
+  <div class="load-error" data-load-error hidden role="alert">
+    <p>The page could not load its data (<code></code>). If you opened <em>index.html</em> straight from disk, start a small local server instead: <kbd>python -m http.server --directory web</kbd>, then open <kbd>http://localhost:8000</kbd>.</p>
+  </div>
+
+  <main>
+    <section id="neuron" class="station" aria-labelledby="neuron-title">
+      <h2 id="neuron-title"><span class="step" aria-hidden="true">1</span>One neuron draws a line</h2>
+      <div class="prose">
+        <p>A neuron is a tiny calculation. It takes some numbers, multiplies each one by a <em>weight</em>, adds a <em>bias</em>, and squashes the result into a value between 0 and 1.</p>
+        <p>Here every point has two numbers: how far across it is (x<sub>1</sub>) and how far up (x<sub>2</sub>). The neuron decides between red cross and blue dot, and its boundary is the dashed line. Move the sliders and watch the line turn and shift.</p>
+        <p>Training does the same thing automatically: measure how wrong the neuron is, nudge each weight a little in the direction that makes the error smaller, and repeat. This is called <em>gradient descent</em>.</p>
+      </div>
+      <div class="figure-row">
+        <canvas class="plot" role="img" aria-label="Blue dots and red crosses with the neuron's decision line"></canvas>
+        <div class="panel">
+          <label class="slider">Weight of x<sub>1</sub> <output for="w1"></output>
+            <input type="range" id="w1" min="-10" max="10" step="0.01" value="0">
+          </label>
+          <label class="slider">Weight of x<sub>2</sub> <output for="w2"></output>
+            <input type="range" id="w2" min="-10" max="10" step="0.01" value="0">
+          </label>
+          <label class="slider">Bias <output for="bias"></output>
+            <input type="range" id="bias" min="-5" max="5" step="0.01" value="0">
+          </label>
+          <p class="formula" data-formula></p>
+          <p class="score" data-score aria-live="polite"></p>
+          <div class="buttons">
+            <button type="button" class="primary" data-learn>Let it learn</button>
+            <button type="button" data-reset>Start over</button>
+          </div>
+          <p class="status" data-status></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="playground" class="station" aria-labelledby="playground-title">
+      <h2 id="playground-title"><span class="step" aria-hidden="true">2</span>More neurons bend the line</h2>
+      <div class="prose">
+        <p>A single neuron can only ever draw a straight line, and most real problems don&rsquo;t split that neatly. Connect neurons in layers and their straight lines add up to curves.</p>
+        <p>Pick a pattern and a network, then press <strong>Train</strong>. Try the spiral with one neuron, then with 8&nbsp;+&nbsp;8. In the diagram, every line is a weight: blue is positive, red is negative, thicker is stronger.</p>
+      </div>
+      <div class="choices">
+        <div class="choice-group" role="group" aria-label="Pattern">
+          <span class="choice-label">Pattern</span>
+          <button type="button" data-dataset value="circles" aria-pressed="true">Circle</button>
+          <button type="button" data-dataset value="xor" aria-pressed="false">Checkerboard</button>
+          <button type="button" data-dataset value="moons" aria-pressed="false">Moons</button>
+          <button type="button" data-dataset value="spiral" aria-pressed="false">Spiral</button>
+        </div>
+        <div class="choice-group" role="group" aria-label="Network">
+          <span class="choice-label">Network</span>
+          <button type="button" data-arch value="neuron" aria-pressed="true">1 neuron</button>
+          <button type="button" data-arch value="small" aria-pressed="false">4 neurons</button>
+          <button type="button" data-arch value="large" aria-pressed="false">8 + 8 neurons</button>
+        </div>
+      </div>
+      <div class="figure-row">
+        <canvas class="plot" data-plot role="img" aria-label="The chosen pattern with the network's current decision regions"></canvas>
+        <div class="panel">
+          <canvas class="diagram" data-diagram role="img" aria-label="Diagram of the network and its weights"></canvas>
+          <div class="buttons">
+            <button type="button" class="primary" data-play>Train</button>
+          </div>
+          <label class="slider">Training progress
+            <input type="range" data-scrub min="0" max="0" step="1" value="0">
+          </label>
+          <p class="status" data-readout aria-live="polite"></p>
+          <p class="verdict" data-verdict></p>
+        </div>
+      </div>
+      <p class="note">Recorded in Python during training, step by step, and replayed here.</p>
+    </section>
+
+    <section id="digits" class="station" aria-labelledby="digits-title">
+      <h2 id="digits-title"><span class="step" aria-hidden="true">3</span>Read my handwriting</h2>
+      <div class="prose">
+        <p>Now a real job. This network learned to read handwritten digits from 60,000 examples. It has never seen your handwriting. Draw a digit and follow it through the network.</p>
+      </div>
+      <div class="digits-grid">
+        <div class="area-pad">
+          <canvas class="pad" data-pad aria-label="Drawing pad. Draw a digit with your finger or mouse."></canvas>
+          <button type="button" data-clear>Clear</button>
+        </div>
+        <div class="area-answer">
+          <p class="guess" data-guess aria-live="polite"></p>
+          <ol class="bars" data-bars aria-label="Probability for each digit"></ol>
+        </div>
+        <div class="area-seen layer">
+          <h3>What the network sees</h3>
+          <canvas class="seen" data-seen role="img" aria-label="Your drawing scaled to 28 by 28 pixels"></canvas>
+          <p>Your drawing, shrunk to 28&nbsp;&times;&nbsp;28 pixels and centred like the training images: 784 numbers between 0 and 1.</p>
+        </div>
+        <div class="area-hidden layer">
+          <h3>First layer: 64 neurons</h3>
+          <canvas class="hidden-grid" data-hidden role="img" aria-label="64 neurons of the first layer; highlighted ones are active"></canvas>
+          <p>Each square is one neuron, showing its weights: ink on blue pixels excites it, ink on red pixels holds it back. Highlighted squares are firing right now. Tap one to look closer.</p>
+          <div class="detail" data-detail hidden>
+            <canvas></canvas>
+            <p></p>
+          </div>
+        </div>
+        <div class="area-second layer">
+          <h3>Second layer: 32 neurons</h3>
+          <canvas class="second" data-second role="img" aria-label="32 neurons of the second layer"></canvas>
+          <p>These combine the first layer&rsquo;s patterns. The last layer turns them into one score per digit.</p>
+        </div>
+      </div>
+      <p class="note">It recognises <span data-test-accuracy>most</span> of the 10,000 test digits it never saw during training. Drawing with a finger looks different from those scanned pen strokes, so it will sometimes be wrong. The training digits were written in the US: try a 1 with a long upstroke, the way it&rsquo;s written in Germany.</p>
+    </section>
+
+    <section id="about" class="about" aria-labelledby="about-title">
+      <h2 id="about-title">How it&rsquo;s built</h2>
+      <div class="prose">
+        <p>The networks come from a small Python library I wrote for this project, using only NumPy: layers, backpropagation, and the Adam optimiser, without a deep-learning framework. The test suite checks every gradient against a numerical derivative.</p>
+        <p>The digit network has <span data-n-params>about 53,000</span> weights in three layers (784&nbsp;&rarr;&nbsp;64&nbsp;&rarr;&nbsp;32&nbsp;&rarr;&nbsp;10). It was trained on rotated, slanted, thicker and thinner versions of the training digits, so it copes better with drawings on a phone.</p>
+        <p>This page only runs networks that were already trained. Its JavaScript forward pass and image preprocessing are tested against the Python implementation.</p>
+        <p><a href="https://github.com/noahli472-ai/neural-network-explained">Source code on GitHub</a></p>
+      </div>
+      <p class="credits">Handwritten digits: the MNIST database by Yann LeCun, Corinna Cortes and Christopher J.&nbsp;C. Burges. Fonts: Bricolage Grotesque and Atkinson Hyperlegible, both under the SIL Open Font License.</p>
+    </section>
+  </main>
+</body>
+</html>

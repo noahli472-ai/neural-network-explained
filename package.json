@@ -1,0 +1,9 @@
+{
+  "name": "neural-network-explained-web",
+  "private": true,
+  "type": "module",
+  "description": "Static website for neural-network-explained. No dependencies, no build step.",
+  "scripts": {
+    "test": "node --test tests/js/*.test.mjs"
+  }
+}

@@ -1,0 +1,609 @@
+/* Squared notebook paper, fountain-pen blue and correction red. */
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("../fonts/bricolage-grotesque-wght.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("../fonts/atkinson-hyperlegible-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("../fonts/atkinson-hyperlegible-700.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --paper: #f8fafb;
+  --grid: #dce9ef;
+  --ink: #1f3fb5;
+  --red: #d3263a;
+  --graphite: #262a31;
+  --graphite-soft: #565e6b;
+  --marker: #ffe45c;
+  --square: 20px;
+  --display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --measure: 38rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--graphite);
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: var(--square) var(--square);
+  -webkit-text-size-adjust: 100%;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+p {
+  margin: 0 0 0.9em;
+}
+
+a {
+  color: var(--ink);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+
+em {
+  font-style: normal;
+  background: linear-gradient(transparent 58%, var(--marker) 58%);
+}
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.skip {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: var(--paper);
+  padding: 0.5rem 0.8rem;
+  z-index: 10;
+}
+.skip:focus {
+  top: 1rem;
+}
+
+/* ---------- Opening ---------- */
+
+.hero {
+  display: grid;
+  gap: 2rem;
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 3.5rem 1.25rem 2rem;
+  align-items: center;
+}
+
+h1 {
+  font-size: clamp(2.9rem, 9vw, 5.6rem);
+  font-weight: 800;
+  font-stretch: 100%;
+  color: var(--ink);
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  margin-bottom: 1.4rem;
+  max-width: 8ch;
+}
+
+.lede {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  max-width: 30rem;
+}
+
+.byline {
+  color: var(--graphite-soft);
+  max-width: 30rem;
+}
+
+.start {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--paper);
+  background: var(--ink);
+  padding: 0.6rem 1.1rem;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.start:hover {
+  background: #17319a;
+}
+
+.hero-figure {
+  margin: 0;
+  justify-self: center;
+  width: min(100%, 26rem);
+}
+
+.hero-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.95rem;
+  color: var(--graphite-soft);
+}
+
+.link-button {
+  font: inherit;
+  color: var(--ink);
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+  cursor: pointer;
+}
+
+@media (min-width: 860px) {
+  .hero {
+    grid-template-columns: 1.15fr 1fr;
+    padding-top: 5rem;
+    min-height: 86vh;
+  }
+}
+
+/* ---------- Stations ---------- */
+
+main {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 0 1.25rem 4rem;
+}
+
+.station,
+.about {
+  padding: 3.5rem 0 1rem;
+  border-top: 2px solid var(--graphite);
+}
+
+.station h2,
+.about h2 {
+  font-size: clamp(1.9rem, 5vw, 2.8rem);
+  margin-bottom: 1.4rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+}
+
+.step {
+  font-size: 1.5em;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 0.8;
+}
+
+.prose {
+  max-width: var(--measure);
+}
+
+.note {
+  max-width: var(--measure);
+  color: var(--graphite-soft);
+  font-size: 0.95rem;
+  margin-top: 1.2rem;
+}
+
+canvas.plot {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2px solid var(--graphite);
+  border-radius: 3px;
+  background: rgb(248 250 251 / 0.55);
+  touch-action: manipulation;
+}
+
+.figure-row {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.6rem;
+  align-items: start;
+}
+
+.figure-row > .plot {
+  max-width: 30rem;
+}
+
+@media (min-width: 760px) {
+  .figure-row {
+    grid-template-columns: minmax(0, 28rem) minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+.panel {
+  max-width: 28rem;
+}
+
+.slider {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.slider output {
+  float: right;
+  font-family: var(--display);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+input[type="range"] {
+  display: block;
+  width: 100%;
+  margin-top: 0.4rem;
+  accent-color: var(--ink);
+  height: 2rem;
+}
+
+.formula {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  background: rgb(255 255 255 / 0.75);
+  border-left: 3px solid var(--ink);
+  padding: 0.5rem 0.8rem;
+}
+
+.score {
+  font-weight: 700;
+}
+
+.status,
+.verdict {
+  color: var(--graphite-soft);
+  min-height: 1.6em;
+}
+
+.verdict {
+  font-weight: 700;
+  color: var(--graphite);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
+button {
+  font-family: var(--body);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--graphite);
+  background: var(--paper);
+  border: 2px solid var(--graphite);
+  border-radius: 4px;
+  padding: 0.55rem 1rem;
+  min-height: 2.75rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #fff;
+}
+
+button.primary {
+  color: var(--paper);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+button.primary:hover {
+  background: #17319a;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* Station 2 choices: the pressed option is highlighted like marker on paper. */
+
+.choices {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 1.6rem;
+}
+
+.choice-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.choice-label {
+  font-weight: 700;
+  width: 5.5rem;
+}
+
+.choice-group button {
+  border-width: 1.5px;
+  font-weight: 400;
+  padding: 0.45rem 0.8rem;
+}
+
+.choice-group button[aria-pressed="true"] {
+  background: var(--marker);
+  font-weight: 700;
+}
+
+canvas.diagram {
+  display: block;
+  width: 100%;
+  height: 11rem;
+}
+
+@media (min-width: 760px) {
+  canvas.diagram {
+    height: 16rem;
+  }
+}
+
+/* ---------- Station 3 ---------- */
+
+.digits-grid {
+  display: grid;
+  gap: 1.8rem;
+  margin-top: 1.6rem;
+  grid-template-areas:
+    "pad"
+    "answer"
+    "seen"
+    "hidden"
+    "second";
+}
+
+.area-pad {
+  grid-area: pad;
+}
+.area-answer {
+  grid-area: answer;
+}
+.area-seen {
+  grid-area: seen;
+}
+.area-hidden {
+  grid-area: hidden;
+}
+.area-second {
+  grid-area: second;
+}
+
+@media (min-width: 720px) {
+  .digits-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "pad answer"
+      "seen hidden"
+      "second hidden";
+  }
+}
+
+@media (min-width: 1080px) {
+  .digits-grid {
+    grid-template-columns: 19rem minmax(0, 1fr) 16rem;
+    grid-template-areas:
+      "pad hidden answer"
+      "seen hidden answer"
+      "seen second answer";
+  }
+}
+
+canvas.pad {
+  display: block;
+  width: 100%;
+  max-width: 19rem;
+  aspect-ratio: 1;
+  border: 2px solid var(--graphite);
+  border-radius: 3px;
+  background-color: #fff;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 10% 10%;
+  touch-action: none;
+  cursor: crosshair;
+  margin-bottom: 0.8rem;
+}
+
+.layer h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.7rem;
+}
+
+.layer p {
+  font-size: 0.95rem;
+  color: var(--graphite-soft);
+  margin-top: 0.7rem;
+  max-width: 30rem;
+}
+
+canvas.seen {
+  display: block;
+  width: 9rem;
+  height: 9rem;
+  image-rendering: pixelated;
+  border: 2px solid var(--graphite);
+  border-radius: 3px;
+}
+
+canvas.hidden-grid {
+  display: block;
+  width: 100%;
+  max-width: 26rem;
+  aspect-ratio: 1;
+  cursor: pointer;
+}
+
+canvas.second {
+  display: block;
+  width: 100%;
+  max-width: 26rem;
+  height: 3.6rem;
+}
+
+.detail {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background: #fff;
+  border: 1.5px solid var(--graphite);
+  border-radius: 4px;
+  max-width: 26rem;
+}
+
+.detail[hidden] {
+  display: none;
+}
+
+.detail canvas {
+  width: 6rem;
+  height: 6rem;
+  flex: none;
+  image-rendering: pixelated;
+}
+
+.detail p {
+  margin: 0;
+  color: var(--graphite);
+}
+
+.guess {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--ink);
+  min-height: 2.4em;
+}
+
+.bars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 22rem;
+}
+
+.bars li {
+  display: grid;
+  grid-template-columns: 1.4rem 1fr 3rem;
+  align-items: center;
+  gap: 0.6rem;
+  height: 1.9rem;
+}
+
+.bars .digit {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-align: center;
+}
+
+.bars .bar {
+  height: 0.9rem;
+  background: rgb(255 255 255 / 0.8);
+  border: 1px solid #aab3bf;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.bars .bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #8b93a1;
+  transition: width 0.12s linear;
+}
+
+.bars .pct {
+  font-size: 0.9rem;
+  color: var(--graphite-soft);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.bars li.best .bar span {
+  background: var(--ink);
+}
+
+.bars li.best .digit,
+.bars li.best .pct {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* ---------- About ---------- */
+
+.about .credits {
+  font-size: 0.9rem;
+  color: var(--graphite-soft);
+  max-width: var(--measure);
+  margin-top: 2rem;
+}
+
+.load-error {
+  max-width: 44rem;
+  margin: 0 auto 2rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--red);
+  background: #fff;
+}
+
+kbd,
+code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .bars .bar span {
+    transition: none;
+  }
+}
